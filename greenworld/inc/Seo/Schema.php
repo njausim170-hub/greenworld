@@ -38,7 +38,7 @@ final class Schema implements Bootable {
 			return; // A dedicated SEO plugin owns the graph; do not duplicate entities.
 		}
 
-		$graph = [ $this->organization(), $this->logo_object(), $this->website() ];
+		$graph = [ $this->organization(), $this->store(), $this->place(), $this->logo_object(), $this->offer_catalog(), $this->website() ];
 
 		$page = $this->webpage();
 		if ( null !== $page ) {
@@ -59,11 +59,21 @@ final class Schema implements Bootable {
 			if ( null !== $list ) {
 				$graph[] = $list;
 			}
+		} elseif ( is_singular( \GreenWorld\Content\TopicMap::GUIDE_CPT ) ) {
+			$graph[] = $this->guide_schema();
+		} elseif ( is_page() && \GreenWorld\Content\TopicMap::LANDING_TPL === get_page_template_slug() ) {
+			$col = $this->landing_collection();
+			if ( null !== $col ) {
+				$graph[] = $col;
+			}
 		} elseif ( is_singular( 'post' ) ) {
 			$graph[] = $this->article();
 		}
 
 		$faq = $this->faq_entities();
+		if ( count( $faq ) === 0 ) {
+			$faq = $this->faq_from_map();
+		}
 		if ( count( $faq ) > 0 ) {
 			// Attach visible FAQ Q&A to the current WebPage as mainEntity.
 			foreach ( $graph as $i => $node ) {
@@ -87,7 +97,7 @@ final class Schema implements Bootable {
 
 	private function organization(): array {
 		$org = [
-			'@type'              => 'OnlineStore',
+			'@type'              => 'Organization',
 			'@id'                => $this->id( '#organization', true ),
 			'name'               => get_bloginfo( 'name' ),
 			'alternateName'      => apply_filters( 'greenworld_org_alternate_names', [ 'Green World Health', 'Green World Health Solutions Kenya' ] ),
@@ -127,6 +137,67 @@ final class Schema implements Bootable {
 			$org['sameAs'] = $same;
 		}
 		return $org;
+	}
+
+	/** The commercial component: the online store, a sub-organisation of the brand. */
+	private function store(): array {
+		$store = [
+			'@type'              => 'OnlineStore',
+			'@id'                => $this->id( '#store', true ),
+			'name'               => get_bloginfo( 'name' ),
+			'url'                => home_url( '/' ),
+			'image'              => [ '@id' => $this->id( '#logo', true ) ],
+			'logo'               => [ '@id' => $this->id( '#logo', true ) ],
+			'parentOrganization' => [ '@id' => $this->id( '#organization', true ) ],
+			'address'            => $this->postal_address(),
+			'areaServed'         => [ '@type' => 'Country', 'name' => 'Kenya' ],
+			'currenciesAccepted' => function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : 'KES',
+			'paymentAccepted'    => 'M-Pesa, Cash on Delivery, Bank Transfer',
+			'priceRange'         => apply_filters( 'greenworld_price_range', 'KES' ),
+			'hasOfferCatalog'    => [ '@id' => $this->id( '#offercatalog', true ) ],
+		];
+		$hours = $this->opening_hours();
+		if ( count( $hours ) > 0 ) {
+			$store['openingHoursSpecification'] = $hours;
+		}
+		return $store;
+	}
+
+	/** The physical location, referenced by the brand and its store. */
+	private function place(): array {
+		return [
+			'@type'   => 'Place',
+			'@id'     => $this->id( '#place', true ),
+			'name'    => 'Green World Health Solutions, Nairobi',
+			'address' => $this->postal_address(),
+		];
+	}
+
+	/**
+	 * OfferCatalog of the eight pillars: a first-class topical-authority signal
+	 * describing the full breadth of what the store offers. Each pillar links to
+	 * its canonical landing page or category.
+	 */
+	private function offer_catalog(): array {
+		$items = [];
+		if ( class_exists( '\GreenWorld\Content\TopicMap' ) ) {
+			foreach ( \GreenWorld\Content\TopicMap::pillars() as $key => $p ) {
+				$entry = [ '@type' => 'OfferCatalog', 'name' => (string) $p['label'] ];
+				if ( class_exists( '\GreenWorld\Content\Relations' ) ) {
+					$url = \GreenWorld\Content\Relations::pillar_url( \GreenWorld\Content\TopicMap::pillar( (string) $key ) ?? $p );
+					if ( '' !== $url ) {
+						$entry['url'] = $url;
+					}
+				}
+				$items[] = $entry;
+			}
+		}
+		return [
+			'@type'           => 'OfferCatalog',
+			'@id'             => $this->id( '#offercatalog', true ),
+			'name'            => 'Health & Wellness Product Categories',
+			'itemListElement' => $items,
+		];
 	}
 
 	private function logo_object(): array {
@@ -261,6 +332,10 @@ final class Schema implements Bootable {
 		$related = $this->related_refs( $product );
 		if ( count( $related ) > 0 ) {
 			$schema['isRelatedTo'] = $related;
+		}
+		$guide_ref = $this->product_guide_ref( $pid );
+		if ( null !== $guide_ref ) {
+			$schema['subjectOf'] = $guide_ref;
 		}
 		if ( $product->is_type( 'variable' ) ) {
 			$schema['hasVariant'] = $this->variant_nodes( $product );
@@ -451,6 +526,192 @@ final class Schema implements Bootable {
 			'mainEntityOfPage' => [ '@id' => $this->id( '#webpage' ) ],
 			'inLanguage'       => $this->lang(),
 		] );
+	}
+
+	/**
+	 * Schema for a Health & Wellness Guide (gw_guide): Article by default, or
+	 * HowTo when the guide is flagged how-to and contains a numbered step list.
+	 * Interlinks to its pillar category (about) and related products (mentions).
+	 */
+	private function guide_schema(): array {
+		$gid  = (int) get_the_ID();
+		$img  = $this->page_image();
+		$type = (string) get_post_meta( $gid, '_gw_guide_type', true );
+		$node = array_filter( [
+			'@type'            => 'Article',
+			'@id'              => $this->id( '#article' ),
+			'headline'         => get_the_title(),
+			'description'      => $this->clean( get_the_excerpt() ),
+			'image'            => '' !== $img ? $img : null,
+			'datePublished'    => get_the_date( 'c' ),
+			'dateModified'     => get_the_modified_date( 'c' ),
+			'author'           => [ '@id' => $this->id( '#organization', true ) ],
+			'publisher'        => [ '@id' => $this->id( '#organization', true ) ],
+			'mainEntityOfPage' => [ '@id' => $this->id( '#webpage' ) ],
+			'isPartOf'         => [ '@id' => $this->id( '#website', true ) ],
+			'inLanguage'       => $this->lang(),
+		] );
+
+		if ( class_exists( '\GreenWorld\Content\TopicMap' ) && class_exists( '\GreenWorld\Content\Relations' ) ) {
+			$pillar_key = (string) get_post_meta( $gid, '_gw_guide_pillar', true );
+			$pillar     = '' !== $pillar_key ? \GreenWorld\Content\TopicMap::pillar( $pillar_key ) : null;
+			if ( null !== $pillar ) {
+				$curl = \GreenWorld\Content\Relations::category_url( (string) $pillar['cat'] );
+				if ( '' !== $curl ) {
+					$node['about'] = [ [ '@type' => 'Thing', 'name' => (string) $pillar['label'], 'url' => $curl ] ];
+				}
+				$mentions = [];
+				foreach ( \GreenWorld\Content\Relations::products_in_cat( (string) $pillar['cat'], 4 ) as $post ) {
+					$mentions[] = [ '@type' => 'Product', 'name' => get_the_title( $post->ID ), 'url' => (string) get_permalink( $post->ID ) ];
+				}
+				if ( count( $mentions ) > 0 ) {
+					$node['mentions'] = $mentions;
+				}
+			}
+		}
+
+		if ( 'howto' === $type ) {
+			$steps = $this->howto_steps();
+			if ( count( $steps ) >= 2 ) {
+				$node['@type'] = 'HowTo';
+				$node['name']  = get_the_title();
+				$node['step']  = $steps;
+			}
+		}
+		return $node;
+	}
+
+	/**
+	 * Parse <ol><li>..</li></ol> items from the current post into HowToStep nodes
+	 * so HowTo markup always mirrors the visible numbered steps.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 */
+	private function howto_steps(): array {
+		$obj = get_queried_object();
+		if ( ! $obj instanceof \WP_Post ) {
+			return [];
+		}
+		if ( ! preg_match( '/<ol[^>]*>(.*?)<\/ol>/is', (string) $obj->post_content, $mm ) ) {
+			return [];
+		}
+		if ( ! preg_match_all( '/<li[^>]*>(.*?)<\/li>/is', $mm[1], $items, PREG_SET_ORDER ) ) {
+			return [];
+		}
+		$steps = [];
+		$pos   = 1;
+		foreach ( $items as $it ) {
+			$text = trim( wp_strip_all_tags( $it[1] ) );
+			if ( strlen( $text ) < 3 ) {
+				continue;
+			}
+			$steps[] = [ '@type' => 'HowToStep', 'position' => $pos++, 'name' => wp_trim_words( $text, 8 ), 'text' => $text ];
+		}
+		return $steps;
+	}
+
+	/**
+	 * CollectionPage + ItemList for a commercial landing page, interlinked to its
+	 * pillar's category (significantLink), related categories and guides.
+	 */
+	private function landing_collection(): ?array {
+		if ( ! class_exists( '\GreenWorld\Content\TopicMap' ) || ! class_exists( '\GreenWorld\Content\Relations' ) ) {
+			return null;
+		}
+		$obj = get_queried_object();
+		if ( ! $obj instanceof \WP_Post ) {
+			return null;
+		}
+		$node = [
+			'@type'      => 'CollectionPage',
+			'@id'        => $this->id( '#collection' ),
+			'url'        => $this->current_url(),
+			'name'       => get_the_title(),
+			'isPartOf'   => [ '@id' => $this->id( '#website', true ) ],
+			'about'      => [ '@id' => $this->id( '#organization', true ) ],
+			'inLanguage' => $this->lang(),
+		];
+		$pillar = \GreenWorld\Content\TopicMap::pillar_by_landing( $obj->post_name );
+		if ( null === $pillar ) {
+			return $node;
+		}
+		$items = [];
+		$pos   = 1;
+		foreach ( \GreenWorld\Content\Relations::products_in_cat( (string) $pillar['cat'], 12 ) as $post ) {
+			$items[] = [ '@type' => 'ListItem', 'position' => $pos++, 'url' => (string) get_permalink( $post->ID ), 'name' => get_the_title( $post->ID ) ];
+		}
+		if ( count( $items ) > 0 ) {
+			$node['mainEntity'] = [ '@type' => 'ItemList', 'numberOfItems' => count( $items ), 'itemListElement' => $items ];
+		}
+		$about_cat = \GreenWorld\Content\Relations::category_url( (string) $pillar['cat'] );
+		if ( '' !== $about_cat ) {
+			$node['significantLink'] = $about_cat;
+		}
+		$links = [];
+		foreach ( \GreenWorld\Content\Relations::related_categories( (string) $pillar['key'], 3 ) as $r ) {
+			if ( '' !== $r['url'] ) {
+				$links[] = $r['url'];
+			}
+		}
+		foreach ( \GreenWorld\Content\Relations::guides_for_pillar( (string) $pillar['key'], 3 ) as $g ) {
+			$links[] = (string) get_permalink( $g );
+		}
+		if ( count( $links ) > 0 ) {
+			$node['relatedLink'] = array_values( array_unique( $links ) );
+		}
+		return $node;
+	}
+
+	/**
+	 * FAQ fallback: when a landing/guide page has no visible <h3> FAQ but is a
+	 * known pillar landing or the commercial hub, emit the pillar/general FAQ bank
+	 * so structured data and the on-page shortcode FAQ stay aligned.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 */
+	private function faq_from_map(): array {
+		if ( ! is_page() || ! class_exists( '\GreenWorld\Content\TopicMap' ) ) {
+			return [];
+		}
+		$obj = get_queried_object();
+		if ( ! $obj instanceof \WP_Post ) {
+			return [];
+		}
+		$bank   = [];
+		$pillar = \GreenWorld\Content\TopicMap::pillar_by_landing( $obj->post_name );
+		if ( null !== $pillar && ! empty( $pillar['faqs'] ) ) {
+			$bank = (array) $pillar['faqs'];
+		} else {
+			$hub = \GreenWorld\Content\TopicMap::commercial_hub();
+			if ( $obj->post_name === $hub['slug'] ) {
+				$bank = \GreenWorld\Content\TopicMap::general_faqs();
+			}
+		}
+		$out = [];
+		foreach ( $bank as $qa ) {
+			$out[] = [ '@type' => 'Question', 'name' => (string) $qa[0], 'acceptedAnswer' => [ '@type' => 'Answer', 'text' => (string) $qa[1] ] ];
+		}
+		return count( $out ) >= 2 ? $out : [];
+	}
+
+	/**
+	 * subjectOf reference from a product to its primary educational guide — the
+	 * product side of the product <-> content relationship.
+	 */
+	private function product_guide_ref( int $pid ): ?array {
+		if ( ! class_exists( '\GreenWorld\Content\Relations' ) ) {
+			return null;
+		}
+		$guide = \GreenWorld\Content\Relations::guide_for_product( $pid );
+		if ( ! $guide instanceof \WP_Post ) {
+			return null;
+		}
+		return [
+			'@type' => 'Article',
+			'@id'   => get_permalink( $guide ) . '#article',
+			'name'  => get_the_title( $guide ),
+			'url'   => (string) get_permalink( $guide ),
+		];
 	}
 
 	/**

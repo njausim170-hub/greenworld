@@ -16,6 +16,14 @@ Home::hero();
 Home::trust_strip();
 Home::shop_by_category();
 
+if ( class_exists( '\GreenWorld\Content\Relations' ) ) {
+	echo '<section class="gw-container gw-section gw-home-authority">';
+	echo '<h2 class="gw-section__title">Explore our world of wellness</h2>';
+	echo do_shortcode( '[gw_pillars]' );
+	echo '<p class="gw-home-authority__more"><a class="gw-btn" href="' . esc_url( \GreenWorld\Content\Relations::hub_url() ) . '">Visit the Health &amp; Wellness Guide &rarr;</a></p>';
+	echo '</section>';
+}
+
 if ( is_page() && have_posts() ) {
 	while ( have_posts() ) {
 		the_post();
