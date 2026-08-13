@@ -33,6 +33,7 @@ final class Theme {
 			\GreenWorld\Seo\Meta::class,
 			\GreenWorld\Seo\Robots::class,
 			\GreenWorld\Seo\MetaBox::class,
+			\GreenWorld\Seo\Breadcrumbs::class,
 			\GreenWorld\Content\ContentTypes::class,
 			\GreenWorld\Content\Seeder::class,
 			\GreenWorld\Content\InternalLinks::class,

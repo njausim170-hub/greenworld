@@ -163,14 +163,34 @@ final class Schema implements Bootable {
 		return $store;
 	}
 
-	/** The physical location, referenced by the brand and its store. */
+	/** The physical location as a full LocalBusiness (Nairobi office; pickup available), linked to the brand. */
 	private function place(): array {
-		return [
-			'@type'   => 'Place',
-			'@id'     => $this->id( '#place', true ),
-			'name'    => 'Green World Health Solutions, Nairobi',
-			'address' => $this->postal_address(),
+		$place = [
+			'@type'              => 'LocalBusiness',
+			'@id'                => $this->id( '#place', true ),
+			'name'               => get_bloginfo( 'name' ),
+			'description'        => $this->org_description(),
+			'url'                => home_url( '/' ),
+			'image'              => [ '@id' => $this->id( '#logo', true ) ],
+			'logo'               => [ '@id' => $this->id( '#logo', true ) ],
+			'telephone'          => get_option( 'greenworld_phone', '+254723579873' ),
+			'email'              => get_option( 'greenworld_email', 'info@greenworldheath.com' ),
+			'address'            => $this->postal_address(),
+			'areaServed'         => [ '@type' => 'Country', 'name' => 'Kenya' ],
+			'currenciesAccepted' => function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : 'KES',
+			'paymentAccepted'    => 'M-Pesa, Cash on Delivery, Bank Transfer',
+			'priceRange'         => apply_filters( 'greenworld_price_range', 'KES' ),
+			'parentOrganization' => [ '@id' => $this->id( '#organization', true ) ],
 		];
+		$hours = $this->opening_hours();
+		if ( count( $hours ) > 0 ) {
+			$place['openingHoursSpecification'] = $hours;
+		}
+		$same = $this->social_links();
+		if ( count( $same ) > 0 ) {
+			$place['sameAs'] = $same;
+		}
+		return $place;
 	}
 
 	/**

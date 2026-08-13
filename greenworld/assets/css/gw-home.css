@@ -106,3 +106,13 @@ ul.products li.product::before{display:none!important;content:none!important;}
 /* Scroller must override the product-grid rule above */
 .gw-scroller .products,
 .gw-featured ul.products{grid-template-columns:none!important;}
+
+/* ---------- Breadcrumbs (visible trail, mirrors JSON-LD) ---------- */
+.gw-breadcrumbs{font-size:.85rem;color:#6b7d73;border-bottom:1px solid #eef4f0;background:#fbfdfc;}
+.gw-breadcrumbs__wrap{padding:.85rem 0;}
+.gw-breadcrumbs ol{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:.15rem 0;margin:0;padding:0;}
+.gw-breadcrumbs li{display:flex;align-items:center;}
+.gw-breadcrumbs li:not(:last-child)::after{content:"\203A";margin:0 .5rem;color:#b8ccbe;}
+.gw-breadcrumbs a{color:#4b5b52;text-decoration:none;}
+.gw-breadcrumbs a:hover{color:var(--gw-ink,#0B3F2E);text-decoration:underline;}
+.gw-breadcrumbs li[aria-current="page"]{color:var(--gw-ink,#0B3F2E);font-weight:600;}
