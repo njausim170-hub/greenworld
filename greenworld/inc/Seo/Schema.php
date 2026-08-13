@@ -642,7 +642,7 @@ final class Schema implements Bootable {
 
 	private function opening_hours(): array {
 		$hours = apply_filters( 'greenworld_opening_hours', [
-			[ 'days' => [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' ], 'opens' => '09:00', 'closes' => '17:00' ],
+			[ 'days' => [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ], 'opens' => '08:30', 'closes' => '18:00' ],
 		] );
 		$spec = [];
 		foreach ( (array) $hours as $h ) {
