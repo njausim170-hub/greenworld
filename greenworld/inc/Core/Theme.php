@@ -49,6 +49,7 @@ final class Theme {
 			\GreenWorld\Front\Trust::class,
 			\GreenWorld\Front\Consultation::class,
 			\GreenWorld\Front\HomeAssets::class,
+			\GreenWorld\Front\TrustCenter::class,
 		];
 	}
 

@@ -20,6 +20,7 @@ final class HomeAssets implements Bootable {
 
 	public function assets(): void {
 		wp_enqueue_style( 'gw-home', GREENWORLD_URI . 'assets/css/gw-home.css', array(), GREENWORLD_VERSION );
+		wp_enqueue_style( 'gw-trust', GREENWORLD_URI . 'assets/css/gw-trust.css', array( 'gw-home' ), GREENWORLD_VERSION );
 		wp_enqueue_script( 'gw-home', GREENWORLD_URI . 'assets/js/gw-home.js', array(), GREENWORLD_VERSION, true );
 	}
 }

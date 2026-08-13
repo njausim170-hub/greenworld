@@ -42,6 +42,7 @@ Home::best_sellers();
 Home::join_band();
 Home::consultation_band();
 Home::why_choose();
+\GreenWorld\Front\TrustCenter::why_trust();
 Home::journal();
 Home::disclaimer();
 Home::newsletter();
