@@ -35,9 +35,9 @@ $gw_shop     = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 			<p><?php esc_html_e( 'Trusted health and wellness products for healthier everyday living, serving customers across Kenya. Shop online, register as a customer or distributor, and get friendly support when you need it.', 'greenworld' ); ?></p>
 			<p class="gw-footer__social">
 				<?php if ( strlen( $gw_whatsapp ) > 0 ) : ?><a href="https://wa.me/<?php echo esc_attr( $gw_whatsapp ); ?>" rel="noopener">WhatsApp</a><?php endif; ?>
-				<a href="https://www.facebook.com/" rel="noopener">Facebook</a>
-				<a href="https://www.instagram.com/" rel="noopener">Instagram</a>
-				<a href="https://www.tiktok.com/" rel="noopener">TikTok</a>
+				<?php foreach ( array( 'gw_facebook' => 'Facebook', 'gw_instagram' => 'Instagram', 'gw_tiktok' => 'TikTok', 'gw_youtube' => 'YouTube' ) as $gw_sk => $gw_sl ) { $gw_su = trim( (string) get_theme_mod( $gw_sk, '' ) ); if ( strlen( $gw_su ) > 0 ) { printf( '<a href="%s" rel="noopener me" target="_blank">%s</a>', esc_url( $gw_su ), esc_html( $gw_sl ) ); } } ?>
+				
+				
 			</p>
 		</div>
 

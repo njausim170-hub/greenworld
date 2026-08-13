@@ -31,6 +31,8 @@ final class Theme {
 			\GreenWorld\Woo\Product_Identifiers::class,
 			\GreenWorld\Seo\Schema::class,
 			\GreenWorld\Seo\Meta::class,
+			\GreenWorld\Seo\Robots::class,
+			\GreenWorld\Seo\MetaBox::class,
 			\GreenWorld\Performance\Optimizer::class,
 			\GreenWorld\Security\Headers::class,
 			\GreenWorld\Admin\Dashboard::class,

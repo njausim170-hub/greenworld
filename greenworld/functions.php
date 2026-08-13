@@ -25,7 +25,7 @@ if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
 	return;
 }
 
-define( 'GREENWORLD_VERSION', '1.0.2' );
+define( 'GREENWORLD_VERSION', '1.0.3' );
 define( 'GREENWORLD_DIR', trailingslashit( get_template_directory() ) );
 define( 'GREENWORLD_URI', trailingslashit( get_template_directory_uri() ) );
 
@@ -463,4 +463,18 @@ function greenworld_favicon_tags(): void {
 	echo '<link rel="icon" href="' . esc_url( $img . 'favicon-192.png' ) . '" sizes="192x192" />' . "\n";
 	echo '<link rel="apple-touch-icon" href="' . esc_url( $img . 'apple-touch-icon.png' ) . '" />' . "\n";
 	echo '<link rel="shortcut icon" href="' . esc_url( GREENWORLD_URI . 'favicon.ico' ) . '" />' . "\n";
+}
+
+/**
+ * Feed official social-profile URLs (set in Customizer) into schema sameAs.
+ */
+add_filter( 'greenworld_social_profiles', 'greenworld_social_profiles_list' );
+function greenworld_social_profiles_list( $links ) {
+	foreach ( array( 'gw_facebook', 'gw_instagram', 'gw_tiktok', 'gw_youtube', 'gw_gbp_url' ) as $key ) {
+		$u = trim( (string) get_theme_mod( $key, '' ) );
+		if ( strlen( $u ) > 0 ) {
+			$links[] = $u;
+		}
+	}
+	return is_array( $links ) ? $links : array();
 }

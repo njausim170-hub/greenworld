@@ -95,5 +95,12 @@ final class Customizer implements Bootable {
 
 		$wp->add_setting( 'gw_gbp_url', [ 'default' => '', 'sanitize_callback' => 'esc_url_raw', 'transport' => 'refresh' ] );
 		$wp->add_control( 'gw_gbp_url', [ 'label' => __( 'Google Business Profile URL (reviews)', 'greenworld' ), 'section' => 'gw_contact', 'type' => 'url' ] );
+
+		// --- Social profiles (entity SEO sameAs) ---
+		$wp->add_section( 'gw_social', array( 'title' => __( 'Social Profiles', 'greenworld' ), 'panel' => 'greenworld', 'description' => __( 'Official profile URLs. Used for schema sameAs and footer links.', 'greenworld' ) ) );
+		foreach ( array( 'gw_facebook' => 'Facebook', 'gw_instagram' => 'Instagram', 'gw_tiktok' => 'TikTok', 'gw_youtube' => 'YouTube' ) as $gw_key => $gw_label ) {
+			$wp->add_setting( $gw_key, array( 'default' => '', 'sanitize_callback' => 'esc_url_raw', 'transport' => 'refresh' ) );
+			$wp->add_control( $gw_key, array( 'label' => $gw_label, 'section' => 'gw_social', 'type' => 'url' ) );
+		}
 	}
 }
