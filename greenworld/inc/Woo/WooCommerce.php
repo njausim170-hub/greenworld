@@ -93,7 +93,7 @@ final class WooCommerce implements Bootable {
 	public function trust_badges(): void {
 		$badges = [
 			__( 'Quality health & wellness products', 'greenworld' ),
-			__( 'Secure payment: M-Pesa, cards or Pay on Delivery', 'greenworld' ),
+			__( 'Secure payment: M-Pesa, bank transfer or cash on delivery', 'greenworld' ),
 			__( 'Discreet delivery across Kenya', 'greenworld' ),
 		];
 		echo '<ul class="gw-ptrust" aria-label="' . esc_attr__( 'Store guarantees', 'greenworld' ) . '">';
@@ -185,7 +185,7 @@ final class WooCommerce implements Bootable {
 			'priority' => 30,
 			'callback' => static function (): void {
 				echo '<h2>' . esc_html__( 'Delivery Information', 'greenworld' ) . '</h2>';
-				echo '<p>' . esc_html( (string) get_theme_mod( 'gw_delivery_note', __( 'Reliable delivery across Kenya. Nairobi same/next day; countrywide in 1–4 business days. Pay by M-Pesa, card or on delivery.', 'greenworld' ) ) ) . '</p>';
+				echo '<p>' . esc_html( (string) get_theme_mod( 'gw_delivery_note', __( 'Reliable delivery across Kenya. Nairobi same/next day; countrywide in 1–4 business days. Pay by M-Pesa, bank transfer or cash on delivery.', 'greenworld' ) ) ) . '</p>';
 			},
 		];
 		return $tabs;

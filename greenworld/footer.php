@@ -30,7 +30,7 @@ $gw_shop     = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 	<div class="gw-container gw-footer__cols">
 		<div class="gw-footer__col gw-footer__about">
 			<?php if ( has_custom_logo() ) : the_custom_logo(); else : ?>
-				<span class="gw-footer__brand">Green World <em><?php esc_html_e( 'Health Solutions', 'greenworld' ); ?></em></span>
+				<img class="gw-footer__logo" src="<?php echo esc_url( GREENWORLD_URI . 'assets/img/logo.png' ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="230" />
 			<?php endif; ?>
 			<p><?php esc_html_e( 'Trusted health and wellness products for healthier everyday living, serving customers across Kenya. Shop online, register as a customer or distributor, and get friendly support when you need it.', 'greenworld' ); ?></p>
 			<p class="gw-footer__social">
@@ -99,8 +99,8 @@ $gw_shop     = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 	<div class="gw-footer__pay">
 		<span class="gw-footer__pay-label"><?php esc_html_e( 'Payments', 'greenworld' ); ?></span>
 		<span class="gw-pay">M-Pesa</span>
-		<span class="gw-pay"><?php esc_html_e( 'Cards', 'greenworld' ); ?></span>
-		<span class="gw-pay"><?php esc_html_e( 'Pay on Delivery', 'greenworld' ); ?></span>
+		<span class="gw-pay"><?php esc_html_e( 'Cash on Delivery', 'greenworld' ); ?></span>
+		<span class="gw-pay"><?php esc_html_e( 'Bank Transfer', 'greenworld' ); ?></span>
 		<span class="gw-footer__secure"><?php esc_html_e( 'SSL secured checkout', 'greenworld' ); ?></span>
 	</div>
 

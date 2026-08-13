@@ -25,7 +25,7 @@ if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
 	return;
 }
 
-define( 'GREENWORLD_VERSION', '1.0.1' );
+define( 'GREENWORLD_VERSION', '1.0.2' );
 define( 'GREENWORLD_DIR', trailingslashit( get_template_directory() ) );
 define( 'GREENWORLD_URI', trailingslashit( get_template_directory_uri() ) );
 
@@ -196,7 +196,9 @@ function greenworld_run_starter_setup(): void {
 	$dir = get_template_directory();
 
 	// Seed brand contact options used by schema + templates (admin can override).
-	add_option( 'greenworld_email', 'info@greenworldhealthsolutions.co.ke' );
+	add_option( 'greenworld_email', 'info@greenworldheath.com' );
+	add_option( 'greenworld_phone', '+254723579873' );
+	add_option( 'greenworld_street', 'Development House, 11th Floor, Room 7' );
 	add_option( 'greenworld_city', 'Nairobi' );
 
 	// Pages from bundled starter HTML.
@@ -235,7 +237,7 @@ function greenworld_run_starter_setup(): void {
 		update_option( 'woocommerce_currency', 'KES' );
 		update_option( 'woocommerce_default_country', 'KE' );
 		update_option( 'woocommerce_store_city', 'Nairobi' );
-		update_option( 'woocommerce_email_from_address', 'info@greenworldhealthsolutions.co.ke' );
+		update_option( 'woocommerce_email_from_address', 'info@greenworldheath.com' );
 		update_option( 'woocommerce_enable_ajax_add_to_cart', 'yes' );
 		update_option( 'woocommerce_cart_redirect_after_add', 'no' );
 		update_option( 'woocommerce_enable_myaccount_registration', 'yes' );
@@ -246,9 +248,15 @@ function greenworld_run_starter_setup(): void {
 		$cod = get_option( 'woocommerce_cod_settings', array() );
 		if ( is_array( $cod ) === false ) { $cod = array(); }
 		$cod['enabled']     = 'yes';
-		$cod['title']       = 'Pay on Delivery';
+		$cod['title']       = 'Cash on Delivery';
 		$cod['description'] = 'Pay with cash or M-Pesa when your order arrives.';
 		update_option( 'woocommerce_cod_settings', $cod );
+		$bacs = get_option( 'woocommerce_bacs_settings', array() );
+		if ( is_array( $bacs ) === false ) { $bacs = array(); }
+		$bacs['enabled']     = 'yes';
+		$bacs['title']       = 'Bank Transfer';
+		$bacs['description'] = 'Pay by direct bank transfer. Use your order number as the payment reference; we ship once payment clears.';
+		update_option( 'woocommerce_bacs_settings', $bacs );
 	}
 
 	// Static front page.
@@ -438,4 +446,21 @@ function gw_render_mega( string $shop ): void {
 	echo '</aside>';
 
 	echo '</div></div>';
+}
+
+
+/**
+ * Output favicon and app-icon tags from bundled assets when the site owner
+ * has not set a WordPress Site Icon. Respects an admin-set Site Icon.
+ */
+add_action( 'wp_head', 'greenworld_favicon_tags', 2 );
+function greenworld_favicon_tags(): void {
+	if ( function_exists( 'has_site_icon' ) && has_site_icon() ) {
+		return;
+	}
+	$img = GREENWORLD_URI . 'assets/img/';
+	echo '<link rel="icon" href="' . esc_url( $img . 'favicon-32.png' ) . '" sizes="32x32" />' . "\n";
+	echo '<link rel="icon" href="' . esc_url( $img . 'favicon-192.png' ) . '" sizes="192x192" />' . "\n";
+	echo '<link rel="apple-touch-icon" href="' . esc_url( $img . 'apple-touch-icon.png' ) . '" />' . "\n";
+	echo '<link rel="shortcut icon" href="' . esc_url( GREENWORLD_URI . 'favicon.ico' ) . '" />' . "\n";
 }

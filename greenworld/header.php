@@ -57,7 +57,7 @@ $gw_action  = home_url( '/' );
 				<div class="gw-headbar__brand">
 					<?php if ( has_custom_logo() ) : the_custom_logo(); else : ?>
 						<a class="gw-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
-							<span class="gw-logo__mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3C9 6 6 12 6 18c0 5 3 9 10 11 7-2 10-6 10-11 0-6-3-12-10-15Z" fill="currentColor" opacity=".14"/><path d="M16 27c-1-7 1-13 7-17-5 1-9 4-11 9M16 27c0-4-1-8-4-11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+							<span class="gw-logo__mark" aria-hidden="true"><img src="<?php echo esc_url( GREENWORLD_URI . 'assets/img/logo-badge.png' ); ?>" alt="" width="44" height="44" /></span>
 							<span class="gw-logo__text"><span class="gw-logo__name">Green World</span><span class="gw-logo__sub"><?php esc_html_e( 'Health Solutions', 'greenworld' ); ?></span></span>
 						</a>
 					<?php endif; ?>

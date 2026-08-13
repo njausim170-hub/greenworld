@@ -205,7 +205,7 @@ final class Home {
 			array( __( 'Carefully Selected Products', 'greenworld' ), __( 'A focused range of quality health and wellness products.', 'greenworld' ) ),
 			array( __( 'Customer-Focused Service', 'greenworld' ), __( 'Friendly, knowledgeable support before and after you buy.', 'greenworld' ) ),
 			array( __( 'Reliable Delivery', 'greenworld' ), __( 'Convenient delivery options across Kenya.', 'greenworld' ) ),
-			array( __( 'Secure Payments', 'greenworld' ), __( 'Pay safely with M-Pesa, cards or on delivery.', 'greenworld' ) ),
+			array( __( 'Secure Payments', 'greenworld' ), __( 'Pay safely with M-Pesa, bank transfer or cash on delivery.', 'greenworld' ) ),
 		);
 		echo '<section class="gw-section gw-section--muted gw-why"><div class="gw-container">';
 		self::section_head( __( 'The Green World difference', 'greenworld' ), __( 'Why Choose Green World Health Solutions', 'greenworld' ) );

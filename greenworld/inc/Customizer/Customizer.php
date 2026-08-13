@@ -21,11 +21,11 @@ final class Customizer implements Bootable {
 	/** @return array<string,string> */
 	public static function defaults(): array {
 		return [
-			'gw_phone'             => '',
-			'gw_whatsapp'          => '',
-			'gw_email'             => 'info@greenworldhealthsolutions.co.ke',
-			'gw_hours'             => 'Mon - Sat, 8:30AM - 6PM',
-			'gw_address'           => '',
+			'gw_phone'             => '0723 579 873',
+			'gw_whatsapp'          => '254723579873',
+			'gw_email'             => 'info@greenworldheath.com',
+			'gw_hours'             => 'Mon - Fri, 9:00 AM - 5:00 PM',
+			'gw_address'           => 'Development House, 11th Floor, Room 7, Nairobi',
 			'gw_topbar_notice'     => 'Welcome to Green World Health Solutions — free health consultation available',
 			'gw_gbp_url'           => '',
 			'gw_wa_order_msg'      => 'Hi Green World Health Solutions, I would like to order: {product} ({url})',
