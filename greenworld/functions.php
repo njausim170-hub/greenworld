@@ -35,7 +35,7 @@ define( 'GREENWORLD_URI', trailingslashit( get_template_directory_uri() ) );
 spl_autoload_register(
 	static function ( string $class ): void {
 		$prefix = 'GreenWorld\\';
-		if ( \! str_starts_with( $class, $prefix ) ) {
+		if ( ! str_starts_with( $class, $prefix ) ) {
 			return;
 		}
 		$relative = substr( $class, strlen( $prefix ) );
@@ -127,7 +127,7 @@ add_action(
 		if ( $green ) { $css .= '--gw-green:' . $green . ';'; }
 		if ( $deep ) { $css .= '--gw-green-deep:' . $deep . ';'; }
 		if ( $gold ) { $css .= '--gw-gold:' . $gold . ';'; }
-		if ( $css \!== '' ) {
+		if ( $css !== '' ) {
 			echo '<style id="greenworld-brand-vars">:root{' . esc_html( $css ) . '}</style>' . "\n";
 		}
 	},
@@ -144,7 +144,7 @@ add_action(
 			return;
 		}
 		$hero = get_theme_mod( 'gw_hero_image', GREENWORLD_URI . 'assets/img/hero.jpg' );
-		if ( is_string( $hero ) && $hero \!== '' ) {
+		if ( is_string( $hero ) && $hero !== '' ) {
 			echo '<link rel="preload" as="image" href="' . esc_url( $hero ) . '" fetchpriority="high" />' . "\n";
 		}
 	},
@@ -178,7 +178,7 @@ function greenworld_primary_menu_fallback( $args = array() ): string {
 	}
 	$html .= '</ul>';
 
-	$echo = ( \! array_key_exists( 'echo', $args ) ) || \! empty( $args['echo'] );
+	$echo = ( ! array_key_exists( 'echo', $args ) ) || ! empty( $args['echo'] );
 	if ( $echo ) {
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_* above.
 		return '';

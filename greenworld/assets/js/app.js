@@ -41,23 +41,23 @@
   /* ---------- mega menu (hover on desktop, click to expand) ---------- */
   document.querySelectorAll('[data-gw-mega-item]').forEach(function (item) {
     var trigger = item.querySelector('.gw-mega-trigger');
-    if (\!trigger) { return; }
+    if (!trigger) { return; }
     trigger.addEventListener('click', function (e) {
       if (isMobile()) {
         e.preventDefault();
         var open = item.classList.toggle('is-open');
         trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      } else if (\!item.classList.contains('is-open')) {
+      } else if (!item.classList.contains('is-open')) {
         // First click opens; second follows the link.
         e.preventDefault();
-        document.querySelectorAll('[data-gw-mega-item].is-open').forEach(function (o) { if (o \!== item) { o.classList.remove('is-open'); } });
+        document.querySelectorAll('[data-gw-mega-item].is-open').forEach(function (o) { if (o !== item) { o.classList.remove('is-open'); } });
         item.classList.add('is-open');
         trigger.setAttribute('aria-expanded', 'true');
       }
     });
   });
   document.addEventListener('click', function (e) {
-    if (\!e.target.closest('[data-gw-mega-item]')) {
+    if (!e.target.closest('[data-gw-mega-item]')) {
       document.querySelectorAll('[data-gw-mega-item].is-open').forEach(function (o) { o.classList.remove('is-open'); o.querySelector('.gw-mega-trigger') && o.querySelector('.gw-mega-trigger').setAttribute('aria-expanded', 'false'); });
     }
   });
@@ -86,11 +86,11 @@
     var popular = ['Immunity', 'Detox', 'Weight Management', 'Digestion', 'Energy', 'Fertility'];
     var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
     var getRecent = function () { try { return JSON.parse(localStorage.getItem(RKEY) || '[]'); } catch (e) { return []; } };
-    var pushRecent = function (q) { try { var l = getRecent().filter(function (x) { return x \!== q; }); l.unshift(q); localStorage.setItem(RKEY, JSON.stringify(l.slice(0, 5))); } catch (e) {} };
+    var pushRecent = function (q) { try { var l = getRecent().filter(function (x) { return x !== q; }); l.unshift(q); localStorage.setItem(RKEY, JSON.stringify(l.slice(0, 5))); } catch (e) {} };
     var show = function () { panel.hidden = false; input.setAttribute('aria-expanded', 'true'); };
     var hide = function () { panel.hidden = true; input.setAttribute('aria-expanded', 'false'); };
     var chips = function (title, arr) {
-      if (\!arr.length) { return ''; }
+      if (!arr.length) { return ''; }
       var h = '<div class="gw-sr-group__title">' + esc(title) + '</div><div class="gw-sr-cats">';
       arr.forEach(function (q) { h += '<a class="gw-sr-chip" href="#" data-gw-term="' + esc(q) + '">' + esc(q) + '</a>'; });
       return h + '</div>';
@@ -98,7 +98,7 @@
     var renderIdle = function () { panel.innerHTML = chips('Recent searches', getRecent()) + chips('Popular', popular); show(); };
     var render = function (d) {
       var p = (d && d.products) || [], c = (d && d.categories) || [];
-      if (\!p.length && \!c.length) { panel.innerHTML = '<div class="gw-sr-empty">No matches. Press Enter to search everything.</div>'; show(); return; }
+      if (!p.length && !c.length) { panel.innerHTML = '<div class="gw-sr-empty">No matches. Press Enter to search everything.</div>'; show(); return; }
       var h = '';
       if (c.length) { h += '<div class="gw-sr-group__title">Categories</div><div class="gw-sr-cats">'; c.forEach(function (cat) { h += '<a class="gw-sr-chip" href="' + esc(cat.url) + '">' + esc(cat.name) + ' (' + esc(cat.count) + ')</a>'; }); h += '</div>'; }
       if (p.length) { h += '<div class="gw-sr-group__title">Products</div>'; p.forEach(function (pr) { h += '<a class="gw-sr-item" href="' + esc(pr.url) + '"><img class="gw-sr-item__img" src="' + esc(pr.img) + '" alt="" loading="lazy" /><span class="gw-sr-item__t">' + esc(pr.title) + '</span><span class="gw-sr-item__p">' + esc(pr.price) + '</span></a>'; }); }
@@ -121,7 +121,7 @@
       var chip = e.target.closest('[data-gw-term]');
       if (chip) { e.preventDefault(); input.value = chip.getAttribute('data-gw-term'); input.focus(); if (input.value.trim().length >= 2) { doSearch(input.value.trim()); } }
     });
-    document.addEventListener('click', function (e) { if (\!e.target.closest('.gw-search')) { hide(); } });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.gw-search')) { hide(); } });
   }
   // Mobile bottom-nav search shortcut.
   document.addEventListener('click', function (e) {
@@ -144,13 +144,13 @@
   }
   function shutQv() { if (qv) { qv.hidden = true; body.classList.remove('gw-qv-open'); } }
   function openQv(id) {
-    if (\!cfg.ajaxUrl) { return; }
+    if (!cfg.ajaxUrl) { return; }
     var m = buildQv(), b = m.querySelector('.gw-qv__body');
     b.innerHTML = '<p class="gw-qv__loading">Loading...</p>'; m.hidden = false; body.classList.add('gw-qv-open');
     fetch(cfg.ajaxUrl + '?action=gw_quickview&id=' + encodeURIComponent(id), { credentials: 'same-origin' })
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (\!res || res.success \!== true) { b.innerHTML = '<p>Unable to load product.</p>'; return; }
+        if (!res || res.success !== true) { b.innerHTML = '<p>Unable to load product.</p>'; return; }
         var d = res.data, buyable = (d.purchasable === true && d.in_stock === true);
         var atc = buyable ? '<a href="' + d.add_url + '" class="button add_to_cart_button ajax_add_to_cart" data-product_id="' + d.id + '" data-quantity="1" rel="nofollow">' + (d.add_text || 'Add to cart') + '</a>' : '<a href="' + d.permalink + '" class="button">' + (d.add_text || 'Read more') + '</a>';
         b.innerHTML = '<div class="gw-qv__grid"><div class="gw-qv__media"><img src="' + d.image + '" alt="" /></div><div class="gw-qv__info"><h2>' + d.title + '</h2><div class="gw-qv__price">' + (d.price || '') + '</div><div class="gw-qv__desc">' + (d.excerpt || '') + '</div><div class="gw-qv__actions">' + atc + ' <a class="button button-ghost" href="' + d.permalink + '">View details</a></div></div></div>';
@@ -173,10 +173,10 @@
   /* ---------- load more ---------- */
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-gw-loadmore]');
-    if (\!btn) { return; }
+    if (!btn) { return; }
     e.preventDefault();
     var next = btn.getAttribute('data-next');
-    if (\!next) { return; }
+    if (!next) { return; }
     var label = btn.textContent; btn.textContent = 'Loading...';
     fetch(next, { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (html) {
       var doc = new DOMParser().parseFromString(html, 'text/html');
@@ -193,7 +193,7 @@
   var stickyAtc = document.querySelector('.gw-sticky-atc');
   var mainBtn = document.querySelector('form.cart button[type="submit"], form.cart .single_add_to_cart_button');
   if (stickyAtc && mainBtn && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (en) { stickyAtc.classList.toggle('is-visible', \!en[0].isIntersecting); }, { threshold: 0 });
+    var io = new IntersectionObserver(function (en) { stickyAtc.classList.toggle('is-visible', !en[0].isIntersecting); }, { threshold: 0 });
     io.observe(mainBtn);
     stickyAtc.addEventListener('click', function (e) { if (e.target.closest('[data-add-to-cart]')) { e.preventDefault(); mainBtn.click(); } });
   }
@@ -202,13 +202,13 @@
   (function () {
     var jq = window.jQuery;
     function endpoint() { return (cfg.wcAjax && cfg.wcAjax.length) ? cfg.wcAjax : '/?wc-ajax=add_to_cart'; }
-    function apply(fragments) { if (\!fragments) { return; } Object.keys(fragments).forEach(function (sel) { document.querySelectorAll(sel).forEach(function (n) { var t = document.createElement('div'); t.innerHTML = fragments[sel]; var r = t.firstElementChild; if (r && n.parentNode) { n.parentNode.replaceChild(r, n); } }); }); }
+    function apply(fragments) { if (!fragments) { return; } Object.keys(fragments).forEach(function (sel) { document.querySelectorAll(sel).forEach(function (n) { var t = document.createElement('div'); t.innerHTML = fragments[sel]; var r = t.firstElementChild; if (r && n.parentNode) { n.parentNode.replaceChild(r, n); } }); }); }
     document.querySelectorAll('.single-product form.cart').forEach(function (form) {
       form.addEventListener('submit', function (e) {
         if (form.classList.contains('variations_form') || form.classList.contains('grouped_form')) { return; }
         var addBtn = form.querySelector('button[name="add-to-cart"], input[name="add-to-cart"]');
         var pid = addBtn && addBtn.value ? addBtn.value : '';
-        if (\!pid) { return; }
+        if (!pid) { return; }
         e.preventDefault();
         var data = new FormData(form); data.append('product_id', pid);
         var btn = form.querySelector('.single_add_to_cart_button'); if (btn) { btn.classList.add('loading'); }
@@ -234,7 +234,7 @@
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-gw-wishlist]');
-    if (\!b) { return; }
+    if (!b) { return; }
     e.preventDefault();
     var id = b.getAttribute('data-gw-wishlist'), list = wish(), i = list.indexOf(id);
     if (i > -1) { list.splice(i, 1); } else { list.push(id); }
@@ -265,13 +265,13 @@
 
   /* ---------- subtle reveal on scroll ---------- */
   function revealScan() {
-    if (reduce || \!('IntersectionObserver' in window)) { return; }
+    if (reduce || !('IntersectionObserver' in window)) { return; }
     var sel = '.gw-cat-card, .gw-collection, .gw-why__card, .gw-journal__card, .gw-join__card, ul.products li.product';
-    var els = [].slice.call(document.querySelectorAll(sel)).filter(function (el) { return \!el.classList.contains('gw-reveal'); });
+    var els = [].slice.call(document.querySelectorAll(sel)).filter(function (el) { return !el.classList.contains('gw-reveal'); });
     var obs = new IntersectionObserver(function (entries, o) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); o.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -8%' });
     els.forEach(function (el) { el.classList.add('gw-reveal'); obs.observe(el); });
   }
-  if (document.readyState \!== 'loading') { revealScan(); } else { document.addEventListener('DOMContentLoaded', revealScan); }
+  if (document.readyState !== 'loading') { revealScan(); } else { document.addEventListener('DOMContentLoaded', revealScan); }
 })();

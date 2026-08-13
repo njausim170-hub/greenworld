@@ -33,7 +33,7 @@ final class Registration implements Bootable {
 	 * Register a Distributor role that mirrors the customer capabilities.
 	 */
 	public function register_role(): void {
-		if ( get_role( 'gw_distributor' ) \!== null ) {
+		if ( get_role( 'gw_distributor' ) !== null ) {
 			return;
 		}
 		$caps = array( 'read' => true );
@@ -80,7 +80,7 @@ final class Registration implements Bootable {
 	 * @param \WP_Error $errors
 	 */
 	public function validate( $username, $email, $errors ): void {
-		if ( \! isset( $_POST['gw_register_nonce'] ) || \! wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_POST['gw_register_nonce'] ) ), 'gw_register' ) ) {
+		if ( ! isset( $_POST['gw_register_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_POST['gw_register_nonce'] ) ), 'gw_register' ) ) {
 			return;
 		}
 		if ( empty( $_POST['gw_phone'] ) ) {
@@ -98,7 +98,7 @@ final class Registration implements Bootable {
 		if ( $cid === 0 ) {
 			return;
 		}
-		if ( \! isset( $_POST['gw_register_nonce'] ) || \! wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_POST['gw_register_nonce'] ) ), 'gw_register' ) ) {
+		if ( ! isset( $_POST['gw_register_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_POST['gw_register_nonce'] ) ), 'gw_register' ) ) {
 			return;
 		}
 		$type    = ( isset( $_POST['gw_account_type'] ) && 'distributor' === $_POST['gw_account_type'] ) ? 'distributor' : 'customer';
@@ -107,14 +107,14 @@ final class Registration implements Bootable {
 		$sponsor = isset( $_POST['gw_sponsor'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['gw_sponsor'] ) ) : '';
 
 		update_user_meta( $cid, '_gw_account_type', $type );
-		if ( $phone \!== '' ) {
+		if ( $phone !== '' ) {
 			update_user_meta( $cid, '_gw_phone', $phone );
 			update_user_meta( $cid, 'billing_phone', $phone );
 		}
-		if ( $county \!== '' ) {
+		if ( $county !== '' ) {
 			update_user_meta( $cid, '_gw_county', $county );
 		}
-		if ( $sponsor \!== '' ) {
+		if ( $sponsor !== '' ) {
 			update_user_meta( $cid, '_gw_sponsor', $sponsor );
 		}
 
@@ -128,7 +128,7 @@ final class Registration implements Bootable {
 
 	private function notify_admin( int $cid, string $phone, string $county, string $sponsor ): void {
 		$user = get_user_by( 'id', $cid );
-		if ( \! $user instanceof \WP_User ) {
+		if ( ! $user instanceof \WP_User ) {
 			return;
 		}
 		$to      = get_option( 'admin_email' );
@@ -138,8 +138,8 @@ final class Registration implements Bootable {
 			$user->display_name,
 			$user->user_email,
 			$phone,
-			$county \!== '' ? $county : '-',
-			$sponsor \!== '' ? $sponsor : '-'
+			$county !== '' ? $county : '-',
+			$sponsor !== '' ? $sponsor : '-'
 		);
 		wp_mail( $to, $subject, $body );
 	}
@@ -211,7 +211,7 @@ final class Registration implements Bootable {
 	 * @param int    $user_id
 	 */
 	public function user_column_value( $output, $column, $user_id ): string {
-		if ( 'gw_account_type' \!== $column ) {
+		if ( 'gw_account_type' !== $column ) {
 			return (string) $output;
 		}
 		$type = (string) get_user_meta( (int) $user_id, '_gw_account_type', true );

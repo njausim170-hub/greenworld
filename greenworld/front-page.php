@@ -19,7 +19,7 @@ Home::shop_by_category();
 if ( is_page() && have_posts() ) {
 	while ( have_posts() ) {
 		the_post();
-		if ( trim( (string) get_the_content() ) \!== '' ) {
+		if ( trim( (string) get_the_content() ) !== '' ) {
 			echo '<div class="gw-container gw-section gw-userblock">';
 			the_content();
 			echo '</div>';

@@ -77,11 +77,11 @@ $gw_shop     = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 			<p><?php esc_html_e( 'Subscribe for health, wellness and product updates. No spam, unsubscribe anytime.', 'greenworld' ); ?></p>
 			<?php
 			$gw_news = do_shortcode( '[contact-form-7 id="newsletter" title="Newsletter"]' );
-			if ( strpos( (string) $gw_news, 'wpcf7' ) \!== false && strpos( (string) $gw_news, 'not found' ) === false ) {
+			if ( strpos( (string) $gw_news, 'wpcf7' ) !== false && strpos( (string) $gw_news, 'not found' ) === false ) {
 				echo $gw_news; // phpcs:ignore
 			} else {
 				?>
-				<form class="gw-news" method="post" action="<?php echo esc_url( $gw_email \!== '' ? 'mailto:' . $gw_email : '#' ); ?>">
+				<form class="gw-news" method="post" action="<?php echo esc_url( $gw_email !== '' ? 'mailto:' . $gw_email : '#' ); ?>">
 					<label class="screen-reader-text" for="gw-news-email"><?php esc_html_e( 'Email address', 'greenworld' ); ?></label>
 					<input id="gw-news-email" type="email" name="subject" placeholder="<?php esc_attr_e( 'Your email address', 'greenworld' ); ?>" />
 					<button type="submit" class="button"><?php esc_html_e( 'Subscribe', 'greenworld' ); ?></button>

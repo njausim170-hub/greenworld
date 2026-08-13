@@ -28,7 +28,7 @@ h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.4rem)}
 h3{font-size:1.2rem}
 p{margin:0 0 1rem}
 :focus-visible{outline:3px solid var(--gw-sage);outline-offset:2px;border-radius:3px}
-.screen-reader-text{position:absolute\!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.screen-reader-text{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .gw-skip{position:fixed;left:50%;top:-60px;transform:translateX(-50%);background:var(--gw-green);color:#fff;padding:.6rem 1.2rem;border-radius:0 0 var(--gw-r) var(--gw-r);z-index:1200;transition:top .2s}
 .gw-skip:focus{top:0;color:#fff}
 
@@ -66,8 +66,8 @@ p{margin:0 0 1rem}
 .gw-utility__links a:hover{color:#fff}
 .gw-utility__hours{opacity:.75}
 .gw-utility__auth{display:flex;align-items:center;gap:.5rem}
-.gw-utility__join{color:var(--gw-gold-soft)\!important;font-weight:600}
-.gw-utility__join:hover{color:#fff\!important}
+.gw-utility__join{color:var(--gw-gold-soft)!important;font-weight:600}
+.gw-utility__join:hover{color:#fff!important}
 
 .gw-header__sticky{position:sticky;top:0;z-index:70;background:var(--gw-surface);border-bottom:1px solid var(--gw-line);transition:box-shadow .2s}
 .gw-header__sticky.is-stuck{box-shadow:0 6px 24px rgba(18,55,38,.08)}
@@ -118,7 +118,7 @@ p{margin:0 0 1rem}
 .gw-primary__menu>li>a:hover{color:#fff}
 .gw-primary__menu>li>a::after{content:"";position:absolute;left:.95rem;right:.95rem;bottom:.55rem;height:2px;background:var(--gw-gold-soft);transform:scaleX(0);transform-origin:left;transition:transform .2s var(--gw-ease)}
 .gw-primary__menu>li>a:hover::after{transform:scaleX(1)}
-.gw-menu-accent>a{color:var(--gw-gold-soft)\!important;font-weight:600}
+.gw-menu-accent>a{color:var(--gw-gold-soft)!important;font-weight:600}
 .gw-chevron{width:15px;height:15px;transition:transform .2s}
 .gw-has-mega{position:static}
 .gw-has-mega[aria-expanded="true"] .gw-chevron,.gw-has-mega.is-open .gw-chevron{transform:rotate(180deg)}
@@ -188,14 +188,14 @@ body.gw-nav-open .gw-nav-scrim{opacity:1}
 .gw-ph>span{font-family:var(--gw-serif);font-size:2.2rem;color:var(--gw-green);opacity:.5}
 
 /* ---------- product grid (WooCommerce loop) ---------- */
-.woocommerce ul.products,ul.products{display:grid\!important;grid-template-columns:repeat(4,1fr);gap:1.3rem;margin:0\!important;padding:0\!important;list-style:none}
-.woocommerce ul.products li.product,ul.products li.product{width:auto\!important;margin:0\!important;float:none\!important;background:#fff;border:1px solid var(--gw-line);border-radius:var(--gw-r-lg);padding:0\!important;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .2s var(--gw-ease),box-shadow .2s,border-color .2s}
+.woocommerce ul.products,ul.products{display:grid!important;grid-template-columns:repeat(4,1fr);gap:1.3rem;margin:0!important;padding:0!important;list-style:none}
+.woocommerce ul.products li.product,ul.products li.product{width:auto!important;margin:0!important;float:none!important;background:#fff;border:1px solid var(--gw-line);border-radius:var(--gw-r-lg);padding:0!important;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .2s var(--gw-ease),box-shadow .2s,border-color .2s}
 .woocommerce ul.products li.product:hover{transform:translateY(-3px);box-shadow:var(--gw-shadow);border-color:var(--gw-sage-line)}
 .woocommerce ul.products li.product a img,ul.products li.product img{margin:0;border-radius:0;aspect-ratio:1/1;object-fit:cover;background:#fff;transition:transform .4s var(--gw-ease)}
 .woocommerce ul.products li.product:hover img{transform:scale(1.04)}
 .woocommerce ul.products li.product .woocommerce-loop-product__link{display:block;padding:0}
-.woocommerce ul.products li.product .woocommerce-loop-product__title,ul.products li.product h2{font-family:var(--gw-sans)\!important;font-size:.95rem\!important;font-weight:600;color:var(--gw-ink)\!important;padding:.2rem 1rem 0\!important;line-height:1.35;min-height:2.5em}
-.woocommerce ul.products li.product .price{padding:.2rem 1rem;color:var(--gw-green)\!important;font-weight:700;font-size:1.02rem;font-family:var(--gw-sans)}
+.woocommerce ul.products li.product .woocommerce-loop-product__title,ul.products li.product h2{font-family:var(--gw-sans)!important;font-size:.95rem!important;font-weight:600;color:var(--gw-ink)!important;padding:.2rem 1rem 0!important;line-height:1.35;min-height:2.5em}
+.woocommerce ul.products li.product .price{padding:.2rem 1rem;color:var(--gw-green)!important;font-weight:700;font-size:1.02rem;font-family:var(--gw-sans)}
 .woocommerce ul.products li.product .price del{color:var(--gw-text-muted);font-weight:400;font-size:.85em;opacity:.8}
 .woocommerce ul.products li.product .price ins{text-decoration:none}
 .woocommerce ul.products li.product .star-rating{margin:.2rem 1rem;font-size:.8rem;color:var(--gw-gold)}
@@ -433,7 +433,7 @@ body.gw-nav-open .gw-nav-scrim{opacity:1}
   .gw-navbar{display:none}
   .gw-primary{position:fixed;top:0;left:0;bottom:0;width:min(340px,86vw);background:#fff;z-index:66;transform:translateX(-100%);transition:transform .28s var(--gw-ease);overflow-y:auto;box-shadow:6px 0 30px rgba(0,0,0,.14);display:block}
   body.gw-nav-open .gw-primary{transform:translateX(0)}
-  body.gw-nav-open .gw-nav-scrim{display:block\!important}
+  body.gw-nav-open .gw-nav-scrim{display:block!important}
   .gw-nav-scrim[hidden]{display:none}
   .gw-primary__head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.2rem;border-bottom:1px solid var(--gw-line);background:var(--gw-green-deep);color:#fff}
   .gw-primary__headtitle{font-family:var(--gw-serif);font-size:1.2rem}
@@ -469,7 +469,7 @@ body.gw-nav-open .gw-nav-scrim{opacity:1}
   .gw-cats__grid{grid-template-columns:repeat(2,1fr)}
   .gw-collections__grid{grid-template-columns:1fr}
   .woocommerce ul.products,ul.products{grid-template-columns:repeat(2,1fr);gap:.8rem}
-  .woocommerce ul.products li.product .woocommerce-loop-product__title,ul.products li.product h2{font-size:.85rem\!important;min-height:2.4em}
+  .woocommerce ul.products li.product .woocommerce-loop-product__title,ul.products li.product h2{font-size:.85rem!important;min-height:2.4em}
   .gw-consult__row{grid-template-columns:1fr}
   .gw-why__grid{grid-template-columns:1fr}
   .gw-footer__cols{grid-template-columns:1fr}

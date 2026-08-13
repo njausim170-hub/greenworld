@@ -36,10 +36,10 @@ final class Home {
 	private static function section_head( string $eyebrow, string $title, string $link = '', string $link_text = '' ): void {
 		echo '<div class="gw-sec__head">';
 		echo '<div class="gw-sec__heads">';
-		if ( $eyebrow \!== '' ) { echo '<span class="gw-eyebrow">' . esc_html( $eyebrow ) . '</span>'; }
+		if ( $eyebrow !== '' ) { echo '<span class="gw-eyebrow">' . esc_html( $eyebrow ) . '</span>'; }
 		echo '<h2 class="gw-sec__title">' . esc_html( $title ) . '</h2>';
 		echo '</div>';
-		if ( $link \!== '' && $link_text \!== '' ) {
+		if ( $link !== '' && $link_text !== '' ) {
 			echo '<a class="gw-sec__more" href="' . esc_url( $link ) . '">' . esc_html( $link_text ) . '</a>';
 		}
 		echo '</div>';
@@ -53,7 +53,7 @@ final class Home {
 		$eye   = (string) get_theme_mod( 'gw_hero_eyebrow', __( 'Trusted health & wellness in Kenya', 'greenworld' ) );
 		$title = (string) get_theme_mod( 'gw_hero_title', __( 'Your Health. Your Wellness. Your Better Tomorrow.', 'greenworld' ) );
 		$sub   = (string) get_theme_mod( 'gw_hero_sub', __( 'Discover carefully selected health and wellness products designed to support healthier everyday living.', 'greenworld' ) );
-		$style = ( $image \!== '' ) ? ' style="background-image:linear-gradient(90deg, rgba(18,55,38,.78), rgba(18,55,38,.28)), url(' . esc_url( $image ) . ')"' : '';
+		$style = ( $image !== '' ) ? ' style="background-image:linear-gradient(90deg, rgba(18,55,38,.78), rgba(18,55,38,.28)), url(' . esc_url( $image ) . ')"' : '';
 		?>
 		<section class="gw-hero"<?php echo $style; // phpcs:ignore ?> aria-label="<?php esc_attr_e( 'Featured', 'greenworld' ); ?>">
 			<div class="gw-container gw-hero__inner">
@@ -175,7 +175,7 @@ final class Home {
 		echo '<div class="gw-collections__grid">';
 		foreach ( $defs as $d ) {
 			$term = get_term_by( 'name', $d['q'], 'product_cat' );
-			$url  = ( $term && \! is_wp_error( $term ) ) ? get_term_link( $term ) : add_query_arg( array( 's' => rawurlencode( $d['q'] ), 'post_type' => 'product' ), home_url( '/' ) );
+			$url  = ( $term && ! is_wp_error( $term ) ) ? get_term_link( $term ) : add_query_arg( array( 's' => rawurlencode( $d['q'] ), 'post_type' => 'product' ), home_url( '/' ) );
 			printf(
 				'<a class="gw-collection" href="%s"><span class="gw-collection__media">%s</span><span class="gw-collection__body"><span class="gw-collection__title">%s</span><span class="gw-collection__text">%s</span><span class="gw-collection__link">%s</span></span></a>',
 				esc_url( is_wp_error( $url ) ? $shop : (string) $url ), self::placeholder( (string) $d['title'] ), esc_html( $d['title'] ), esc_html( $d['text'] ), esc_html__( 'Shop collection', 'greenworld' )
@@ -247,10 +247,10 @@ final class Home {
 		echo '<h2 class="gw-newsletter__title">' . esc_html__( 'Join our wellness list', 'greenworld' ) . '</h2>';
 		echo '<p>' . esc_html__( 'Health tips, new arrivals and offers — straight to your inbox.', 'greenworld' ) . '</p>';
 		$html = do_shortcode( '[contact-form-7 id="newsletter" title="Newsletter"]' );
-		if ( strpos( (string) $html, 'wpcf7' ) \!== false && strpos( (string) $html, 'not found' ) === false ) {
+		if ( strpos( (string) $html, 'wpcf7' ) !== false && strpos( (string) $html, 'not found' ) === false ) {
 			echo $html; // phpcs:ignore
 		} else {
-			echo '<form class="gw-news gw-news--lg" method="post" action="' . esc_url( $email \!== '' ? 'mailto:' . $email : '#' ) . '">';
+			echo '<form class="gw-news gw-news--lg" method="post" action="' . esc_url( $email !== '' ? 'mailto:' . $email : '#' ) . '">';
 			echo '<label class="screen-reader-text" for="gw-news2">' . esc_html__( 'Email address', 'greenworld' ) . '</label>';
 			echo '<input id="gw-news2" type="email" name="subject" placeholder="' . esc_attr__( 'Your email address', 'greenworld' ) . '" />';
 			echo '<button class="button" type="submit">' . esc_html__( 'Subscribe', 'greenworld' ) . '</button>';

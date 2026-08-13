@@ -61,7 +61,7 @@ final class WooCommerce implements Bootable {
 
 	public function badges(): void {
 		global $product;
-		if ( \! $product instanceof \WC_Product ) {
+		if ( ! $product instanceof \WC_Product ) {
 			return;
 		}
 		echo '<div class="gw-badges">';
@@ -72,7 +72,7 @@ final class WooCommerce implements Bootable {
 		if ( $date && ( time() - $date->getTimestamp() ) < 30 * DAY_IN_SECONDS ) {
 			echo '<span class="gw-badge gw-badge--new">' . esc_html__( 'New', 'greenworld' ) . '</span>';
 		}
-		if ( \! $product->is_in_stock() ) {
+		if ( ! $product->is_in_stock() ) {
 			echo '<span class="gw-badge gw-badge--oos">' . esc_html__( 'Out of stock', 'greenworld' ) . '</span>';
 		}
 		echo '</div>';
@@ -80,7 +80,7 @@ final class WooCommerce implements Bootable {
 
 	public function wishlist_button(): void {
 		global $product;
-		if ( \! $product instanceof \WC_Product ) {
+		if ( ! $product instanceof \WC_Product ) {
 			return;
 		}
 		printf(
@@ -159,7 +159,7 @@ final class WooCommerce implements Bootable {
 		if ( $product instanceof \WC_Product ) {
 			$ingredients = trim( (string) get_post_meta( $product->get_id(), '_gw_ingredients', true ) );
 			$howto       = trim( (string) get_post_meta( $product->get_id(), '_gw_howtouse', true ) );
-			if ( $ingredients \!== '' ) {
+			if ( $ingredients !== '' ) {
 				$tabs['gw_ingredients'] = [
 					'title'    => __( 'Ingredients', 'greenworld' ),
 					'priority' => 22,
@@ -169,7 +169,7 @@ final class WooCommerce implements Bootable {
 					},
 				];
 			}
-			if ( $howto \!== '' ) {
+			if ( $howto !== '' ) {
 				$tabs['gw_howtouse'] = [
 					'title'    => __( 'How to Use', 'greenworld' ),
 					'priority' => 24,
@@ -192,11 +192,11 @@ final class WooCommerce implements Bootable {
 	}
 
 	public function sticky_atc(): void {
-		if ( \! function_exists( 'is_product' ) || \! is_product() ) {
+		if ( ! function_exists( 'is_product' ) || ! is_product() ) {
 			return;
 		}
 		global $product;
-		if ( \! $product instanceof \WC_Product ) {
+		if ( ! $product instanceof \WC_Product ) {
 			return;
 		}
 		printf(

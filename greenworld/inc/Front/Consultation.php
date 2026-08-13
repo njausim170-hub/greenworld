@@ -51,11 +51,11 @@ final class Consultation implements Bootable {
 
 	private function opt( string $key, string $default = '' ): string {
 		$v = isset( $_POST[ $key ] ) ? sanitize_text_field( wp_unslash( (string) $_POST[ $key ] ) ) : '';
-		return $v \!== '' ? $v : $default;
+		return $v !== '' ? $v : $default;
 	}
 
 	public function handle(): void {
-		if ( \! isset( $_POST['nonce'] ) || \! wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_POST['nonce'] ) ), 'greenworld' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_POST['nonce'] ) ), 'greenworld' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Security check failed. Please refresh and try again.', 'greenworld' ) ), 400 );
 		}
 		if ( empty( $_POST['consent'] ) ) {
@@ -105,7 +105,7 @@ final class Consultation implements Bootable {
 		$to   = get_option( 'admin_email' );
 		$body = sprintf(
 			"New health consultation request.\n\nName: %s\nPhone: %s\nEmail: %s\nAge: %s\nGender: %s\nPreferred contact: %s\nCurrently using: %s\n\nConcern:\n%s\n\nReview under Consultations in wp-admin.",
-			$name, $phone, $email \!== '' ? $email : '-', $age \!== '' ? $age : '-', $gender \!== '' ? $gender : '-', $prefer \!== '' ? $prefer : '-', $using \!== '' ? $using : '-', $concern
+			$name, $phone, $email !== '' ? $email : '-', $age !== '' ? $age : '-', $gender !== '' ? $gender : '-', $prefer !== '' ? $prefer : '-', $using !== '' ? $using : '-', $concern
 		);
 		wp_mail( $to, __( 'New health consultation request', 'greenworld' ), $body );
 	}
