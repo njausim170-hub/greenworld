@@ -43,10 +43,12 @@ final class Theme {
 			\GreenWorld\Admin\ProductList::class,
 			\GreenWorld\Compat\Elementor::class,
 			\GreenWorld\Customizer\Customizer::class,
+			\GreenWorld\Customizer\HomepagePanel::class,
 			\GreenWorld\Search\AjaxSearch::class,
 			\GreenWorld\Account\Registration::class,
 			\GreenWorld\Front\Trust::class,
 			\GreenWorld\Front\Consultation::class,
+			\GreenWorld\Front\HomeAssets::class,
 		];
 	}
 

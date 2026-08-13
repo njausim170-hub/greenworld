@@ -36,9 +36,10 @@ if ( is_page() && have_posts() ) {
 }
 
 Home::featured_products();
+Home::health_focus();
+Home::full_body_scan();
 Home::best_sellers();
 Home::join_band();
-Home::collections();
 Home::consultation_band();
 Home::why_choose();
 Home::journal();
