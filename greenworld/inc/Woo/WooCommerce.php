@@ -39,6 +39,10 @@ final class WooCommerce implements Bootable {
 		remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
 		remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
 		remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
+
+		// One sale badge only: drop WooCommerce's default flash; badges() is the single indicator.
+		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_show_product_loop_sale_flash', 10 );
+		remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
 	}
 
 	public function columns(): void {

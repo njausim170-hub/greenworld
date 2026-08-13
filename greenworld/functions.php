@@ -25,7 +25,7 @@ if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
 	return;
 }
 
-define( 'GREENWORLD_VERSION', '1.4.0' );
+define( 'GREENWORLD_VERSION', '1.5.0' );
 define( 'GREENWORLD_DIR', trailingslashit( get_template_directory() ) );
 define( 'GREENWORLD_URI', trailingslashit( get_template_directory_uri() ) );
 

@@ -40,6 +40,7 @@ $gw_action  = home_url( '/' );
 				<li><a href="<?php echo esc_url( home_url( '/track-order/' ) ); ?>"><?php esc_html_e( 'Track Order', 'greenworld' ); ?></a></li>
 				<li><a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>"><?php esc_html_e( 'Customer Service', 'greenworld' ); ?></a></li>
 				<?php if ( strlen( $gw_hours ) > 0 ) : ?><li class="gw-utility__hours"><?php echo esc_html( $gw_hours ); ?></li><?php endif; ?>
+				<?php if ( strlen( $gw_phone ) > 0 ) : ?><li class="gw-utility__call"><a href="tel:<?php echo esc_attr( $gw_tel ); ?>"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4.5 5.5c0 7.7 6.3 14 14 14l0-3.2-4-1.1-2 2a13 13 0 0 1-5.7-5.7l2-2-1.1-4Z"/></svg><?php echo esc_html( $gw_phone ); ?></a></li><?php endif; ?>
 				<li class="gw-utility__auth">
 					<a href="<?php echo esc_url( $gw_account ); ?>"><?php esc_html_e( 'Sign in', 'greenworld' ); ?></a>
 					<span aria-hidden="true">&middot;</span>
